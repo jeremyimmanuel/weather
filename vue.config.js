@@ -1,5 +1,7 @@
+import { openWeatherUrl } from "./src/constants";
+
 module.exports = {
   devServer: {
-    proxy: "https://api.openweathermap.org/",
+    proxy: openWeatherUrl,
   },
-}
+};
