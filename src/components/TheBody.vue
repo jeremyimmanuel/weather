@@ -2,6 +2,7 @@
   <div class="h-screen bg-indigo-200">
     <h1>The weather looks nice today!</h1>
     {{ weatherCondition }}
+    <img id="wicon" :src="weatherIconUrl" alt="weather icon">
   </div>
 </template>
 
@@ -15,6 +16,7 @@ export default {
   data() {
     return {
       weatherCondition: "",
+      weatherIcon: "",
     };
   },
 
@@ -32,6 +34,15 @@ export default {
 
     console.log("res", obj.data);
     this.weatherCondition = obj.data.weather[0].description;
+    this.weatherIcon = obj.data.weather[0].icon;
   },
+
+  computed: {
+    weatherIconUrl () {
+      if (this.weatherIcon)
+        return `http://api.openweathermap.org/img/w/${this.weatherIcon}.png`;
+      return "";
+    }
+  }
 };
 </script>
