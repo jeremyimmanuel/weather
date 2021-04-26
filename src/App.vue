@@ -1,19 +1,22 @@
 <template>
   <div>
     <the-heading />
+    <the-body />
   </div>
 </template>
 
 <script>
-import TheHeading from '@/components/TheHeading.vue'
+import TheHeading from "@/components/TheHeading.vue";
+import TheBody from "@/components/TheBody.vue";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    TheHeading
-  }
-}
+    TheHeading,
+    TheBody,
+  },
+};
 </script>
 
 <style lang="scss">
