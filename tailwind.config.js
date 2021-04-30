@@ -2,11 +2,15 @@ module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: theme => ({
+        forest: "url('./assets/forest_wallpaper.jpg')",
+      }),
+    },
   },
   variants: {
     extend: {
-      borderWidth: ["hover", "focus"]
+      borderWidth: ["hover", "focus"],
     },
   },
   plugins: [],

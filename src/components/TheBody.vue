@@ -1,12 +1,21 @@
 <template>
-  <div class="h-screen bg-indigo-200 flex flex-col justify-start items-center">
+  <div
+    class="h-screen flex flex-col justify-start items-center"
+    :class="{
+      'bg-gradient-to-tr': true,
+      'from-pink-500': true,
+      'via-red-500': true,
+      'to-yellow-400': true,
+    }"
+  >
+    <div class="text-4xl font-sans">How's the weather today?</div>
     <input
       v-model="city"
       type="text"
-      class="rounded-md h-8 pl-2 focus:outline-none"
+      class="rounded-md border-gray-400 border-2 h-12 w-64 pl-2 focus:outline-none mt-2"
+      placeholder="Type in a city or place"
       @keyup.enter="fetchCurrentWeather"
     />
-    <h1>The weather looks nice today!</h1>
     {{ weatherCondition }}
     <img
       v-if="weatherIconUrl"
@@ -14,7 +23,8 @@
       :src="weatherIconUrl"
       alt="weather icon"
     />
-    <div v-if="timestamp">{{ cityDate }}</div>
+    <weather-icon v-if="weatherDesc" :condition="weatherDesc" />
+    <div v-if="timestamp" class="text-4xl mb-4">{{ cityDate }}</div>
     <div
       v-if="temperature"
       class="font-sans font-bold drop-shadow-xl text-8xl bg-white bg-opacity-50 p-4 rounded-md"
@@ -27,6 +37,7 @@
 
 <script>
 import OpenWeather from "@/services/openweather";
+import WeatherIcon from "@/components/WeatherIcon.vue";
 
 export default {
   name: "TheBody",
@@ -35,6 +46,7 @@ export default {
     return {
       weatherCondition: "",
       weatherIcon: "",
+      weatherDesc: "",
       temperature: "",
       city: "",
       timestamp: 0,
@@ -52,13 +64,18 @@ export default {
       try {
         const data = await OpenWeather.fetchCurrentWeather(this.city);
 
-        this.weatherCondition = data.weather[0].description;
+        this.weatherCondition = data.weather[0].main;
+        this.weatherDesc = data.weather[0].description;
         this.weatherIcon = data.weather[0].icon;
         this.temperature = data.main.temp;
 
         const dateObj = new Date();
         const currentTime = dateObj.getTime();
-        this.timestamp = currentTime + data.timezone;
+        this.timestamp =
+          currentTime +
+          dateObj.getTimezoneOffset() * 60 * 1000 +
+          data.timezone * 1000;
+        console.log("cityDate", this.cityDate);
       } catch (error) {
         this.error = error.response.data.message;
       }
@@ -72,9 +89,7 @@ export default {
     },
 
     cityDate() {
-      console.log("timestamp", this.timestamp);
       const localTime = new Date(this.timestamp);
-      console.log(localTime.toLocaleString())
       return localTime.toLocaleDateString(undefined, {
         weekday: "long",
         year: "numeric",
@@ -82,6 +97,10 @@ export default {
         day: "numeric",
       });
     },
+  },
+
+  components: {
+    WeatherIcon,
   },
 };
 </script>

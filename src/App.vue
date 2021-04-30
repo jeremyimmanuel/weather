@@ -1,19 +1,16 @@
 <template>
   <div>
-    <the-heading />
-    <the-body />
+    <the-body class="flex justify-center items-center" />
   </div>
 </template>
 
 <script>
-import TheHeading from "@/components/TheHeading.vue";
 import TheBody from "@/components/TheBody.vue";
 
 export default {
   name: "App",
 
   components: {
-    TheHeading,
     TheBody,
   },
 };

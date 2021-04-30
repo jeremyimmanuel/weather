@@ -23,7 +23,6 @@ export const registerComponents = (app) =>
     const componentConfig = requireComponent(fileName);
 
     const componentName = getComponentName(fileName);
-    console.log(componentName);
 
     app.component(componentName, componentConfig.default || componentConfig);
   });
